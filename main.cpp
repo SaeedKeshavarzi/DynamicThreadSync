@@ -43,12 +43,20 @@ private:
 		{
 			coarse_sync->sync();
 
+			std::cout << '<';
+
 			fine_sync->sync();
-			std::cout << '*';
+			std::cout << id;
+
+			fine_sync->sync();
+			std::cout << '>';
 
 			fine_sync->sync();
 			if (id == 0)
+			{
 				std::cout << std::endl;
+				std::this_thread::sleep_for(15ms);
+			}
 		}
 
 		fine_sync->unregister_thread();
@@ -70,13 +78,13 @@ int main()
 
 	for (int i = 0; i < 3; ++i)
 	{
-		for (int j = 0; j < 25; ++j)
+		for (int j = 0; j < 9; ++j)
 		{
 			printer_stack.emplace(j, &coarse_sync, &fine_sync);
 			std::this_thread::sleep_for(100ms);
 		}
 
-		for (int j = 0; j < 25; ++j)
+		for (int j = 0; j < 9; ++j)
 		{
 			printer_stack.pop();
 			std::this_thread::sleep_for(100ms);
